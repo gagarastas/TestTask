@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>add object</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <h3>Добавление объекта недвижимости</h3>
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="form-group">
+        <form action="{{ path('addObject') }}" method="post" enctype="multipart/form-data">
+            <label for="address">Введите адрес:</label>
+            <input class="form-control" type="text" id="address" name="_address" value=""/> <br>
+            <label for="coordinates">Введите координаты:</label>
+            <input class="form-control" type="text" id="coordinates" name="_coordinates"/> <br>
+            <label for="description">Введите описание недвижимости:</label>
+            <input class="form-control" type="text" id="description" name="_description"/>
+
+            <div class="margin-block">
+                <label for="params">укажите набор параметров если они есть:</label>
+                <select class="custom-select" id="params" name="_params[]" size="2" multiple>
+                    <option>возможность проживать с животными</option>
+                    <option>возможность проживать с детьми</option>
+                </select>
+            </div>
+
+            <div class="margin-block">
+                <label for="facilities">укажите набор удобств если они есть:</label>
+                <select class="custom-select" id="facilities" name="_facilities[]" multiple>
+                    <option>наличие телевизора</option>
+                    <option>наличие холодильника</option>
+                    <option>наличие стиральной машины</option>
+                    <option>наличие балкона</option>
+                </select>
+            </div>
+
+            <div class="margin-block">
+                <label for="photos">Прикрепите фотографии если они имеются:</label>
+                <input class="form-control-file" type="file" id="photos" name="_photos[]" multiple/>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('addObject') }}">
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit">Добавить объект недвижимости</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Подробный просмотр</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="images">
+    {% for photoEntity in object.getPhotos() %}
+        {% set pathToPhoto = photoEntity.getPath() %}
+        <img alt="" height="300" src="{{ pathToPhoto| split('/public')[1] }}">
+    {% endfor %}
+</div>
+
+<div class="center">
+    <h3>Адрес: {{ object.address }}</h3>
+    <h4> Координаты: {{ object.coordinates }}</h4>
+    <h5>Описание:</h5>
+    <p class="description"> {{ object.description }} </p>
+
+
+    {% for paramEntity in object.getObjectsParams() %}
+        <p class="alert alert-success">{{ paramEntity.getParamsText() }}</p>
+    {% endfor %}
+
+
+    {% for facilityEntity in object.getObjectsFacilities() %}
+        <p class="alert alert-primary">{{ facilityEntity.getFacilityText() }}</p>
+    {% endfor %}
+
+    {% if adminFlag == true %}
+        <a class="btn btn-primary center-button" href="{{ path('updateObject', { 'id':object.getId() }) }}">Изменить
+            обьект недвижимости</a>
+        <a class="btn btn-danger center-button" href="{{ path('removeObject', { 'id':object.getId() }) }}">Удалить
+            обьект недвижимости</a>
+        <a class="admin btn btn-danger center-button" href="{{ path('logout') }}"> Выйти </a>
+    {% else %}
+        <a class="admin btn btn-info center-button" href="{{ path('adminLogin') }}"> Войти как администратор </a>
+    {% endif %}
+</div>
+
+</body>
+</html>

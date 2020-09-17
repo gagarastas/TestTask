@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    {% if adminFlag == true %}
+        <a class="admin btn btn-danger center-button" href="{{ path('logout') }}"> Выйти </a>
+        <a class="adding btn btn-warning center-button" href="{{ path('addObject') }}"> Добавить</a>
+    {% else %}
+        <a class="admin btn btn-info center-button" href="{{ path('adminLogin') }}"> Войти как администратор </a>
+    {% endif %}
+    <h1>Доступные объекты недвижимости:</h1>
+    {% for object in objectsEntities %}
+        <div class="block">
+            {% if object.getPhotos() is not empty %}
+                {% set pathToFirstPhoto = object.getPhotos()[0].getPath %}
+                <img alt="" height="250px" src="{{ pathToFirstPhoto| split('/public')[1] }}">
+            {% else %}
+                <img alt="" height="250px" src="/images/plug.jpg">
+            {% endif %}
+
+            <div class="object-info">
+                <a class="btn btn-primary center-button" href="{{ path('oneObject', { 'id':object.getId() }) }}">
+                    подробнее </a>
+                <h3 class="text address">Адрес: {{ object.address }}</h3>
+                <p class="text coords"> Координаты: {{ object.coordinates }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+
